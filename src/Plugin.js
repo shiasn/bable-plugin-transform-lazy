@@ -22,8 +22,6 @@ class Plugin {
 
     if (!specifier) return;
 
-    this.lazyComponentDetected = true;
-
     const local = specifier.local.name;
 
     if (!this.check(local, extra)) {
@@ -37,6 +35,8 @@ class Plugin {
 
       return;
     }
+
+    this.lazyComponentDetected = true;
 
     this.replaceToLazy(options, local, extra)
   }
