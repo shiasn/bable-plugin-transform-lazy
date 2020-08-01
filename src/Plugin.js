@@ -28,6 +28,8 @@ class Plugin {
       this.detectLazyFlag(extra);
       return;
     }
+
+    this.replaceToLazy(options, local, extra)
   }
 
   check (local, extra) {
@@ -40,6 +42,32 @@ class Plugin {
     if (this.lazyDetected || extra !== REACT_FLAG) return;
 
     this.lazyDetected = node.specifiers.some(s => s.imported && s.imported.name === 'lazy');
+  }
+
+  replaceToLazy (options, local, extra) {
+    const t = this.t;
+  
+    const importCallback = t.arrowFunctionExpression(
+      [],
+      t.CallExpression(
+        t.Identifier('import'),
+        [
+          t.StringLiteral(extra)
+        ]
+      )
+    );
+  
+    options.replaceWith(
+      t.variableDeclaration('const', [
+        t.variableDeclarator(
+          t.Identifier(local),
+          t.CallExpression(
+            t.Identifier('lazy'),
+            [importCallback]
+          )
+        )
+      ])
+    );
   }
 
   ProgramExit () {}
