@@ -5,6 +5,8 @@
   "author": "shiasn <shiasn.ho@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "clean": "rimraf lib",
+    "build": "npm run clean && babel src --out-dir lib",
     "test": "jest",
     "test:coverage": "jest --coverage"
   },
