@@ -1,4 +1,5 @@
 const DEFAULT_SPECIFIER_FLAG = 'ImportDefaultSpecifier';
+const REACT_FLAG = 'react';
 
 class Plugin {
   constructor (options, types) {
@@ -21,7 +22,8 @@ class Plugin {
     const local = specifier.local.name;
 
     if (!this.check(local, extra)) {
-
+      detectLazyFlag();
+      return;
     }
   }
 
@@ -29,6 +31,12 @@ class Plugin {
     const { checker } = this.options;
     if (!checker) return true;
     return checker(local, extra);
+  }
+
+  detectLazyFlag (extra) {
+    if (this.lazyDetected || extra !== REACT_FLAG) return;
+
+    this.lazyDetected = node.specifiers.some(s => s.imported && s.imported.name === 'lazy');
   }
 
   ProgramExit () {}
