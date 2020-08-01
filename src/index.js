@@ -9,8 +9,6 @@ const plugin = ({ types }) => {
         if (!instance) {
           instance = new Plugin(opts, types);
         }
-        // console.log(instance.Program)
-        // instance.Program.apply(instance, arguments, this);
       },
       exit (_) {
         instance.ProgramExit.apply(instance, arguments, this);
