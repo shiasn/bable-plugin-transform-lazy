@@ -6,6 +6,7 @@ class Plugin {
     this.t = types;
     this.options = options;
     this.lazyDetected = false;
+    this.lazyComponentDetected = false;
   }
 
   ImportDeclaration (options) {
@@ -18,6 +19,8 @@ class Plugin {
     const specifier = node.specifiers.find(({ type }) => type === DEFAULT_SPECIFIER_FLAG);
 
     if (!specifier) return;
+
+    this.lazyComponentDetected = true;
 
     const local = specifier.local.name;
 
