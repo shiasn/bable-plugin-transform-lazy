@@ -18,11 +18,6 @@ class Plugin {
 
     const extra = source.extra.rawValue;
 
-    if (extra === REACT_FLAG) {
-      this.reactImportDeclarationOptions = options;
-      return;
-    }
-
     const specifiers = node.specifiers;
     const specifier = specifiers.find(({ type }) => type === DEFAULT_SPECIFIER_FLAG);
 
@@ -30,11 +25,16 @@ class Plugin {
 
     const local = specifier.local.name;
 
-    if (!this.check(local, extra)) {
-      if (!this.lazyDetected || extra === REACT_FLAG) {
+    if (extra === REACT_FLAG) {
+      if (!this.lazyDetected) {
         this.lazyDetected = specifiers.some(s => s.imported && s.imported.name === 'lazy');
       }
 
+      this.reactImportDeclarationOptions = options;
+      return;
+    }
+
+    if (!this.check(local, extra)) {
       return;
     }
 
