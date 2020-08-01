@@ -73,7 +73,44 @@ class Plugin {
     );
   }
 
-  ProgramExit () {}
+  addLazyFlag (node) {
+    if (!this.lazyComponentDetected) return;
+    if (this.lazyDetected) return;
+
+    const t = this.t;
+
+    if (this.reactImportDeclarationOptions) {
+      const importDeclarationNode = {...this.reactImportDeclarationOptions.node};
+      importDeclarationNode.specifiers = [
+        ...importDeclarationNode.specifiers,
+        t.ImportSpecifier(
+          t.Identifier('lazy'),
+          t.Identifier('lazy')
+        )
+      ]
+  
+      this.reactImportDeclarationOptions.replaceWith(importDeclarationNode);
+      return;
+    }
+
+    node.body.unshift(t.ImportDeclaration(
+      [
+        t.ImportSpecifier(
+          t.Identifier('lazy'),
+          t.Identifier('lazy')
+        ),
+      ],
+      t.StringLiteral('react')
+    ));
+  }
+
+  ProgramExit ({ node }) {
+    this.addLazyFlag(node);
+
+    this.lazyDetected = false;
+    this.lazyComponentDetected = false;
+    this.reactImportDeclarationOptions = null;
+  }
 }
 
 module.exports = Plugin;
