@@ -1,0 +1,22 @@
+{
+  "name": "babel-plugin-transform-lazy",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "author": "shiasn <shiasn.ho@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
+    "babel-jest": "^26.2.2",
+    "jest": "^26.2.2",
+    "rimraf": "^3.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testRegex": "/test/.*\\.test\\.js$",
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
+  }
+}
