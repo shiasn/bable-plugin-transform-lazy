@@ -1,5 +1,5 @@
 {
-  "name": "babel-plugin-transform-lazy",
+  "name": "babel-plugin-transform-react-lazy-import",
   "version": "0.0.1",
   "main": "lib/index.js",
   "author": "shiasn <shiasn.ho@gmail.com>",

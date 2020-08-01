@@ -16,7 +16,7 @@ function babelConfig () {
 
   const devPlugins = [
     [
-      'transform-lazy',
+      'transform-react-lazy-import',
       {
         checker: (local, extra) => {
           return extra.startsWith('@Views')
