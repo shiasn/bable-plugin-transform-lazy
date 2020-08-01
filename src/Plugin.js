@@ -7,6 +7,7 @@ class Plugin {
     this.options = options;
     this.lazyDetected = false;
     this.lazyComponentDetected = false;
+    this.reactImportDeclarationOptions = null;
   }
 
   ImportDeclaration (options) {
@@ -16,7 +17,8 @@ class Plugin {
     if (!source || !source.extra) return;
 
     const extra = source.extra.rawValue;
-    const specifier = node.specifiers.find(({ type }) => type === DEFAULT_SPECIFIER_FLAG);
+    const specifiers = node.specifiers;
+    const specifier = specifiers.find(({ type }) => type === DEFAULT_SPECIFIER_FLAG);
 
     if (!specifier) return;
 
@@ -25,7 +27,14 @@ class Plugin {
     const local = specifier.local.name;
 
     if (!this.check(local, extra)) {
-      this.detectLazyFlag(extra);
+      if (!this.lazyDetected || extra === REACT_FLAG) {
+        this.lazyDetected = specifiers.some(s => s.imported && s.imported.name === 'lazy');
+      }
+
+      if (extra === REACT_FLAG) {
+        this.reactImportDeclarationOptions = options;
+      }
+
       return;
     }
 
@@ -36,12 +45,6 @@ class Plugin {
     const { checker } = this.options;
     if (!checker) return true;
     return checker(local, extra);
-  }
-
-  detectLazyFlag (extra) {
-    if (this.lazyDetected || extra !== REACT_FLAG) return;
-
-    this.lazyDetected = node.specifiers.some(s => s.imported && s.imported.name === 'lazy');
   }
 
   replaceToLazy (options, local, extra) {
