@@ -25,7 +25,7 @@ class Plugin {
     const local = specifier.local.name;
 
     if (!this.check(local, extra)) {
-      detectLazyFlag();
+      this.detectLazyFlag(extra);
       return;
     }
   }
