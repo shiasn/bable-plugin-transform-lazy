@@ -14,7 +14,7 @@ function babelConfig () {
   const presets = [...<your presets>];
   const plugins = [...<your plugins>];
 
-  const devPlugins = [
+  const prodPlugins = [
     [
       'transform-react-lazy-import',
       {
@@ -29,7 +29,9 @@ function babelConfig () {
     presets,
     plugins,
     env: {
-      development: devPlugins
+      production: {
+        plugins: prodPlugins
+      }
     }
   }
 }
