@@ -1,8 +1,10 @@
 {
   "name": "babel-plugin-transform-react-lazy-import",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "lib/index.js",
   "author": "shiasn <shiasn.ho@gmail.com>",
+  "homepage": "https://github.com/shiasn/bable-plugin-transform-lazy",
+  "repository": "https://github.com/shiasn/bable-plugin-transform-lazy",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf lib",
